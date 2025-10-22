@@ -1,0 +1,23 @@
+{
+  "name": "api-gateway",
+  "version": "1.0.0",
+  "description": "Lightweight, extensible API Gateway for the Temploy platform. Provides centralized routing, authentication and authorization, rate limiting, observability, and pluggable middleware to simplify and secure communication between clients and microservices. Designed for easy deployment with Docker and Kubernetes and configurable via simple JSON/YAML files.",
+  "homepage": "https://github.com/hasibul442/Temploy-Api_Gateway#readme",
+  "bugs": {
+    "url": "https://github.com/hasibul442/Temploy-Api_Gateway/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hasibul442/Temploy-Api_Gateway.git"
+  },
+  "license": "ISC",
+  "author": "Mohammad Hasibul Hasan",
+  "type": "module",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
