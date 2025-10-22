@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const categoriesSchema = new mongoose.Schema({
-    cat_name: { type: String, required: true },
+    cat_name: { type: String, required: true, unique: true },
     cat_icon_url: { type: String, required: true },
     status: { type: Boolean, default: true },
     description: { type: String },
