@@ -6,6 +6,8 @@ const categoriesSchema = new mongoose.Schema({
     status: { type: Boolean, default: true },
     description: { type: String },
     slug: { type: String, required: true, unique: true },
+    created_by: { type: String, default: "system" },
+    updated_by: { type: String, default: "system" }
 }, { timestamps: true });
 
 export default mongoose.model("Categories", categoriesSchema);
