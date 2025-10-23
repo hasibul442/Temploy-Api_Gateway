@@ -14,7 +14,7 @@ app.use(express.json());
 connectDB();
 
 // Routes
-app.use('/v1/api', routes);
+app.use('/api/v1', routes);
 
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
