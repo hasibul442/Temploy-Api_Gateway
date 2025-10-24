@@ -1,12 +1,13 @@
 import { getAllCategories, createCategory, getCategoryById, updateCategory, deleteCategory } from "../services/CategoryService.js";
 
 export async function getCategories(req, res, next) {
+
     try {
-        const categories = await getAllCategories();
+        const categories = await getAllCategories(req);
         res.status(200).json({
             status: 200,
             success: true,
-            data: categories
+            ...categories
         });
     } catch (error) {
         next(error);

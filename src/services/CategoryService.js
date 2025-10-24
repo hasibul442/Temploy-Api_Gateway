@@ -1,7 +1,26 @@
 import Categories from "../models/Categories.js";
 
-export const getAllCategories = async () => {
-  return await Categories.find().sort({ createdAt: -1 });
+export const getAllCategories = async (req) => {
+  const searchParams = req.query;
+
+  const page = parseInt(searchParams.page || '1', 10);
+  const limit = parseInt(searchParams.limit || '10', 10);
+  const skip = (page - 1) * limit;
+
+  const [categories, total] = await Promise.all([
+    Categories.find().sort({ createdAt: -1 }).skip(skip).limit(limit),
+    Categories.countDocuments()
+  ]);
+
+  return {
+    data: categories,
+    pagination: {
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit)
+    }
+  };
 };
 
 export const createCategory = async (data) => {
