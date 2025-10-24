@@ -51,6 +51,7 @@ URL: `https://api-gateway-t57d.onrender.com/`
 
  ```
  |-- src
+ |   |-- config
  |   |-- controllers
  |   |   |-- CategoryController.js
  |   |   |-- HealthController.js
