@@ -1,6 +1,7 @@
 // index.js
 import express from 'express';
 import dotenv from "dotenv";
+import cors from "cors";
 import connectDB from './src/utils/dbconnection.js';
 import routes from './src/routes/routes.js';
 
@@ -12,6 +13,8 @@ const port = process.env.APPLICATION_PORT;
 // Middleware
 app.use(express.json());
 connectDB();
+
+app.use(cors());
 
 // Routes
 app.use('/api/v1', routes);
