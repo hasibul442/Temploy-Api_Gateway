@@ -1,9 +1,15 @@
+import HttpCode from "../utils/constants/HttpCode.js";
+import ResponseCode from "../utils/constants/ResponseCode.js";
+import connectDB from "../utils/dbconnection.js";
 
 export async function healthCheck(req, res) {
-    await res.status(200).json(
+    await res.status(HttpCode.OK).json(
         {
-            status: true,
-            message: "API is running successfully"
+            code: HttpCode.OK,
+            status: ResponseCode.SUCCESS,
+            success: true,
+            message: "API Server is running",
+            database: await connectDB(),
         }
     );
 }
