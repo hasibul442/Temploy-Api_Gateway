@@ -4,7 +4,7 @@ import path from "path";
 
 const fsPromises = fs.promises;
 
-export const saveBase64Image = async (dataUrl, folderName = "default", prefix = "image", hostUrl) => {
+export async function saveBase64Image(dataUrl, folderName = "default", prefix = "image", hostUrl) {
     try {
         if (!dataUrl || typeof dataUrl !== 'string' || !dataUrl.startsWith('data:')) return null;
 
@@ -45,5 +45,19 @@ export async function deleteFile(imageUrl, folderName = "default") {
         }
     } catch (err) {
         console.error("❌ Error deleting file:", err);
+    }
+}
+
+export async function updateBase64Image(newBase64, oldUrl, folderName = "default", prefix = "image", hostUrl) {
+    try {
+        if (!newBase64 || !newBase64.startsWith("data:")) return null;
+
+        if (oldUrl) await deleteFile(oldUrl, folderName);
+
+        const saved = await saveBase64Image(newBase64, folderName, prefix, hostUrl);
+        return saved;
+    } catch (err) {
+        console.error("❌ Error updating base64 image:", err);
+        return null;
     }
 }

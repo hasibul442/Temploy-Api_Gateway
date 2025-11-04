@@ -16,9 +16,9 @@ export async function getCategories(req, res, next) {
 
 export async function createCat(req, res, next) {
     try {
-        const category = await createCategory(req.body);
-        res.status(201).json({
-            status: 201,
+        const category = await createCategory(req);
+        res.status(200).json({
+            status: 200,
             success: true,
             data: category
         });
@@ -49,7 +49,7 @@ export async function getCategory(req, res, next) {
 
 export async function updateCat(req, res, next) {
     try {
-        const category = await updateCategory(req.params.id, req.body);
+        const category = await updateCategory(req.params.id, req);
         if (!category) {
             return res.status(404).json({
                 status: 404,
