@@ -39,10 +39,10 @@ export const createCategory = async (req) => {
   const categoryData = { ...req.body };
 
   // If cat_icon_url is provided as base64 data URL, save it and replace with public URL
-  const saved = await saveBase64Image(categoryData.cat_icon_url, 'categories', 'category-icon', currentUrl);
-  if (saved?.url) {
-    categoryData.cat_icon_url = saved.url;
-  }
+  // const saved = await saveBase64Image(categoryData.cat_icon_url, 'categories', 'category-icon', currentUrl);
+  // if (saved?.url) {
+  //   categoryData.cat_icon_url = saved.url;
+  // }
 
   if (categoryData.cat_name) {
     categoryData.slug = categoryData.cat_name.toLowerCase();
@@ -83,3 +83,4 @@ export const deleteCategory = async (id) => {
   await Categories.findByIdAndDelete(id);
   return category;
 };
+ 
