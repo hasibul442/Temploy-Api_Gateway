@@ -60,8 +60,8 @@ export const updateCategory = async (id, req) => {
   const currentUrl = `${req.protocol}://${req.get('host')}`;
   const category = await Categories.findById(id);
   if (!category) return null;
-  const updated = await updateBase64Image(req.body.cat_icon_url, category.cat_icon_url, "categories", "category-icon", currentUrl);
-  if (updated?.url) req.body.cat_icon_url = updated.url;
+  // const updated = await updateBase64Image(req.body.cat_icon_url, category.cat_icon_url, "categories", "category-icon", currentUrl);
+  // if (updated?.url) req.body.cat_icon_url = updated.url;
 
   return await Categories.findByIdAndUpdate(id, req.body, { new: true });
 };
@@ -71,14 +71,14 @@ export const deleteCategory = async (id) => {
   const category = await Categories.findById(id);
   if (!category) return null;
 
-  if (category.cat_icon_url) {
-    try {
-      await deleteFile(category.cat_icon_url, 'categories');
-    } catch (err) {
-      // Log and continue - don't block DB deletion for file removal issues
-      console.error('Error deleting category file:', err);
-    }
-  }
+  // if (category.cat_icon_url) {
+  //   try {
+  //     await deleteFile(category.cat_icon_url, 'categories');
+  //   } catch (err) {
+  //     // Log and continue - don't block DB deletion for file removal issues
+  //     console.error('Error deleting category file:', err);
+  //   }
+  // }
 
   await Categories.findByIdAndDelete(id);
   return category;
