@@ -1,7 +1,7 @@
 import express from "express";
 import { healthCheck } from "../controllers/HealthController.js";
 import { createCat, deleteCat, getCategories, getCategory, updateCat } from "../controllers/CategoryController.js";
-import { getSub } from "../controllers/SubCategoryController.js";
+import { createSub, deleteSub, getSub, getSubCat, updateSub } from "../controllers/SubCategoryController.js";
 
 
 const router = express.Router();
@@ -15,5 +15,9 @@ router.put("/categories/:id", updateCat);
 router.delete("/categories/:id", deleteCat);
 
 router.get("/subcategories", getSub);
+router.post("/subcategories", createSub);
+router.get("/subcategories/:id", getSubCat);
+router.put("/subcategories/:id", updateSub);
+router.delete("/subcategories/:id", deleteSub);
 
 export default router;
