@@ -4,6 +4,7 @@ import { createCat, deleteCat, getCategories, getCategory, updateCat } from "../
 import { createSub, deleteSub, getSub, getSubCat, updateSub } from "../controllers/SubCategoryController.js";
 import { createLevel, getLevels } from "../controllers/LevelController.js";
 import { createSkillData, deleteSkillData, getSkill, getSkillList, updateSkillData } from "../controllers/SkillController.js";
+import EmpAuthRoute from "./auth/EmpAuthRoute.js";
 
 
 const router = express.Router();
@@ -30,5 +31,8 @@ router.post("/skills", createSkillData);
 router.get("/skills/:id", getSkill);
 router.put("/skills/:id", updateSkillData);
 router.delete("/skills/:id", deleteSkillData);
+
+//Auth Routes
+router.use("/auth/employee", EmpAuthRoute);
 
 export default router;
