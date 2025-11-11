@@ -5,32 +5,34 @@ import { createSub, deleteSub, getSub, getSubCat, updateSub } from "../controlle
 import { createLevel, getLevels } from "../controllers/LevelController.js";
 import { createSkillData, deleteSkillData, getSkill, getSkillList, updateSkillData } from "../controllers/SkillController.js";
 import EmpAuthRoute from "./auth/EmpAuthRoute.js";
+import { checkAuthentication } from "../middlewares/middleware.js";
 
 
 const router = express.Router();
 
 router.get("/health", healthCheck);
 
+// Protected routes - require authentication
 router.get("/categories", getCategories);
-router.post("/categories", createCat);
+router.post("/categories", checkAuthentication, createCat);
 router.get("/categories/:id", getCategory);
-router.put("/categories/:id", updateCat);
-router.delete("/categories/:id", deleteCat);
+router.put("/categories/:id", checkAuthentication, updateCat);
+router.delete("/categories/:id", checkAuthentication, deleteCat);
 
 router.get("/subcategories", getSub);
-router.post("/subcategories", createSub);
+router.post("/subcategories", checkAuthentication, createSub);
 router.get("/subcategories/:id", getSubCat);
-router.put("/subcategories/:id", updateSub);
-router.delete("/subcategories/:id", deleteSub);
+router.put("/subcategories/:id", checkAuthentication, updateSub);
+router.delete("/subcategories/:id", checkAuthentication, deleteSub);
 
 router.get("/levels", getLevels);
-router.post("/levels", createLevel);
+router.post("/levels", checkAuthentication, createLevel);
 
-router.get("/skills", getSkillList);
-router.post("/skills", createSkillData);
-router.get("/skills/:id", getSkill);
-router.put("/skills/:id", updateSkillData);
-router.delete("/skills/:id", deleteSkillData);
+router.get("/skills", checkAuthentication, getSkillList);
+router.post("/skills", checkAuthentication, createSkillData);
+router.get("/skills/:id", checkAuthentication, getSkill);
+router.put("/skills/:id", checkAuthentication, updateSkillData);
+router.delete("/skills/:id", checkAuthentication, deleteSkillData);
 
 //Auth Routes
 router.use("/auth/employee", EmpAuthRoute);
