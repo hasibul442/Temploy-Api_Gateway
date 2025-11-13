@@ -49,7 +49,16 @@ const jobsSchema = new mongoose.Schema({
     enum: ["fixed", "hourly"],
     required: true,
   },
-  job_na
+  duration: {
+    type: String,
+    enum: ["short-term", "long-term", "ongoing"],
+    required: true,
+  },
+  status: {
+    type: String,
+    enum: ["open", "in_progress", "completed", "closed"],
+    default: "open",
+  },
 });
 
 export const Jobs = mongoose.model("Jobs", jobsSchema);
