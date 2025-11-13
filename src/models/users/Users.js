@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
-  fname: {
+  f_name: {
     type: String,
     required: true,
     trim: true,
   },
-  lname: {
+  l_name: {
     type: String,
     required: true,
     trim: true,
@@ -21,14 +21,36 @@ const userSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
-  phone : {
+  phone: {
     type: String,
     required: true,
     trim: true,
   },
-  isActive: {
+  is_active: {
     type: Boolean,
     default: true,
+  },
+  is_email_verified: {
+    type: Boolean,
+    default: false,
+  },
+  is_kyc_verified: {
+    type: Boolean,
+    default: false,
+  },
+  user_type: {
+    type: String,
+    enum: ["regular", "pro"],
+    default: "regular",
+  },
+  profile_image: {
+    type: String,
+    trim: true,
+  },
+  availability: {
+    type: String,
+    enum: ["available", "unavailable", "busy"],
+    default: "available",
   },
 });
 
