@@ -6,6 +6,7 @@ import { createLevel, getLevels } from "../controllers/LevelController.js";
 import { createSkillData, deleteSkillData, getSkill, getSkillList, updateSkillData } from "../controllers/SkillController.js";
 import EmpAuthRoute from "./auth/EmpAuthRoute.js";
 import { checkAuthentication } from "../middlewares/middleware.js";
+import { createBanner, deleteBanner, getBanner, getBannerById, updateBanner } from "../controllers/BannerController.js";
 
 
 const router = express.Router();
@@ -27,6 +28,12 @@ router.delete("/subcategories/:id", checkAuthentication, deleteSub);
 
 router.get("/levels", getLevels);
 router.post("/levels", checkAuthentication, createLevel);
+
+router.get("/banners", getBanner);
+router.post("/banners", checkAuthentication, createBanner);
+router.get("/banners/:id", checkAuthentication, getBannerById);
+router.put("/banners/:id", checkAuthentication, updateBanner);
+router.delete("/banners/:id", checkAuthentication, deleteBanner);
 
 router.get("/skills", checkAuthentication, getSkillList);
 router.post("/skills", checkAuthentication, createSkillData);
