@@ -5,6 +5,7 @@ import { createSub, deleteSub, getSub, getSubCat, updateSub } from "../controlle
 import { createLevel, getLevels } from "../controllers/LevelController.js";
 import { createSkillData, deleteSkillData, getSkill, getSkillList, updateSkillData } from "../controllers/SkillController.js";
 import EmpAuthRoute from "./auth/EmpAuthRoute.js";
+import UserAuthRoute from "./auth/UserAuthRoute.js";
 import { checkAuthentication } from "../middlewares/middleware.js";
 import { createBanner, deleteBanner, getBanner, getBannerById, updateBanner } from "../controllers/BannerController.js";
 
@@ -43,5 +44,6 @@ router.delete("/skills/:id", checkAuthentication, deleteSkillData);
 
 //Auth Routes
 router.use("/auth/employee", EmpAuthRoute);
+router.use("/auth/user", UserAuthRoute);
 
 export default router;
