@@ -1,6 +1,6 @@
 import express from "express";
 import { healthCheck } from "../controllers/HealthController.js";
-import { createCat, deleteCat, getCategories, getCategory, updateCat } from "../controllers/CategoryController.js";
+import { createCat, deleteCat, getCategories, getCategory, getCategoryWithSubs, updateCat } from "../controllers/CategoryController.js";
 import { createSub, deleteSub, getSub, getSubCat, updateSub } from "../controllers/SubCategoryController.js";
 import { createLevel, getLevels } from "../controllers/LevelController.js";
 import { createSkillData, deleteSkillData, getSkill, getSkillList, updateSkillData } from "../controllers/SkillController.js";
@@ -18,6 +18,7 @@ router.get("/health", healthCheck);
 router.get("/categories", getCategories);
 router.post("/categories", checkAuthentication, createCat);
 router.get("/categories/:id", getCategory);
+router.get("/categories/:id/subcat", getCategoryWithSubs);
 router.put("/categories/:id", checkAuthentication, updateCat);
 router.delete("/categories/:id", checkAuthentication, deleteCat);
 
