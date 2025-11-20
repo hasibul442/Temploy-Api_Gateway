@@ -3,27 +3,27 @@ import mongoose from "mongoose";
 const userSchema = new mongoose.Schema({
   f_name: {
     type: String,
-    required: true,
+    required: [ true, "First name is required" ],
     trim: true,
   },
   l_name: {
     type: String,
-    required: true,
+    required: [ true, "Last name is required" ],
     trim: true,
   },
   email: {
     type: String,
-    required: true,
+    required: [ true, "Email is required" ],
     trim: true,
   },
   password: {
     type: String,
-    required: true,
+    required: [ true, "Password is required" ],
     trim: true,
   },
   phone: {
     type: String,
-    required: true,
+    required: [ true, "Phone number is required" ],
     trim: true,
   },
   is_active: {
@@ -49,7 +49,7 @@ const userSchema = new mongoose.Schema({
   },
   availability: {
     type: String,
-    enum: ["available", "unavailable", "busy"],
+    enum: ["available", "unavailable", "busy", "deactivated", "offline", "deleted"],
     default: "available",
   },
 });
