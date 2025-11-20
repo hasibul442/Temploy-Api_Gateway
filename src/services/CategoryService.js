@@ -1,10 +1,5 @@
 import Categories from "../models/Categories.js";
-import fs from "fs";
-const fsPromises = fs.promises;
-import path from "path";
-import { deleteFile, saveBase64Image, updateBase64Image } from "../utils/helper/fileHelper.js";
-
-
+import SubCategory from "../models/SubCategory.js";
 
 export const getAllCategories = async (req) => {
   const searchParams = req.query;
@@ -12,13 +7,13 @@ export const getAllCategories = async (req) => {
     const categories = await Categories.find().sort({ createdAt: -1 });
     return { data: categories };
   } else {
-    const page = parseInt(searchParams.page || '1', 10);
-    const limit = parseInt(searchParams.limit || '10', 10);
+    const page = Number.parseInt(searchParams.page || "1", 10);
+    const limit = Number.parseInt(searchParams.limit || "10", 10);
     const skip = (page - 1) * limit;
 
     const [categories, total] = await Promise.all([
       Categories.find().sort({ createdAt: -1 }).skip(skip).limit(limit),
-      Categories.countDocuments()
+      Categories.countDocuments(),
     ]);
 
     return {
@@ -27,14 +22,14 @@ export const getAllCategories = async (req) => {
         total,
         page,
         limit,
-        totalPages: Math.ceil(total / limit)
-      }
+        totalPages: Math.ceil(total / limit),
+      },
     };
   }
 };
 
 export const createCategory = async (req) => {
-  const currentUrl = `${req.protocol}://${req.get('host')}`;
+  const currentUrl = `${req.protocol}://${req.get("host")}`;
 
   const categoryData = { ...req.body };
 
@@ -57,7 +52,7 @@ export const getCategoryById = async (id) => {
 };
 
 export const updateCategory = async (id, req) => {
-  const currentUrl = `${req.protocol}://${req.get('host')}`;
+  const currentUrl = `${req.protocol}://${req.get("host")}`;
   const category = await Categories.findById(id);
   if (!category) return null;
   // const updated = await updateBase64Image(req.body.cat_icon_url, category.cat_icon_url, "categories", "category-icon", currentUrl);
@@ -83,4 +78,13 @@ export const deleteCategory = async (id) => {
   await Categories.findByIdAndDelete(id);
   return category;
 };
- 
+
+export const getCategoryWithSubCategories = async (id) => {
+  const categoryData = await Categories.findById(id);
+  const subcategories = await SubCategory.find({ cat_id: id });
+  if (!categoryData) return null;
+  return {
+    category: categoryData,
+    subcategories: subcategories,
+  };
+};
