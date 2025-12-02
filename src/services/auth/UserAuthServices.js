@@ -2,6 +2,7 @@ import { UserProfile } from "../../models/users/UserProfile.js";
 import { Users } from "../../models/users/Users.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { createOTP } from "../OtpService.js";
 
 async function formatUserResponse(user) {
 
@@ -59,10 +60,16 @@ export async function userRegister(req) {
       ...req.body,
       password: hased,
     });
-    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
-      expiresIn: "1d",
-    });
-    return { ...(await formatUserResponse(newUser)), ...(await formatUserToken(token)) };
+    // const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
+    //   expiresIn: "1d",
+    // });
+    
+    await createOTP(email, newUser._id, "registration");
+    
+    return { 
+      ...(await formatUserResponse(newUser)), 
+      otpMsg : "An OTP has been sent to your email for verification."
+    };
   } catch (error) {
     throw error;
   }
