@@ -3,10 +3,9 @@ import { UserCertification } from "../../models/users/UserCertification.js";
 import { Users } from "../../models/users/Users.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { createOTP } from "../OtpService.js";
+import { createOTP, validateOTP } from "../OtpService.js";
 
 async function formatUserResponse(user) {
-
   const user_profile = await UserProfile.findOne({ user_id: user._id });
 
   return {
@@ -27,7 +26,7 @@ async function formatUserResponse(user) {
       hourly_rate: user_profile ? user_profile.hourly_rate : 0,
       service: user_profile ? user_profile.service : [],
       social_links: user_profile ? user_profile.social_links : [],
-      certifications: user_profile ?  user_profile.certifications : [],
+      certifications: user_profile ? user_profile.certifications : [],
     },
   };
 }
@@ -64,18 +63,44 @@ export async function userRegister(req) {
     // const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
     //   expiresIn: "1d",
     // });
-    
+
     await createOTP(email, newUser._id, "registration");
 
     return {
       ...(await formatUserResponse(newUser)),
-      otpMsg : "An OTP has been sent to your email for verification."
+      otpMsg: "An OTP has been sent to your email for verification.",
     };
   } catch (error) {
     throw error;
   }
 }
 
+export async function otpVarification(req) {
+  try {
+    const { email, service_type, otp_code } = req.body;
+
+    await validateOTP(email, service_type, otp_code);
+
+    const user = await Users.findOne({ email });
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    user.is_email_verified = true;
+    await user.save();
+
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "1d",
+    });
+
+    return {
+      ...(await formatUserResponse(user)),
+      ...(await formatUserToken(token)),
+    };
+  } catch (error) {
+    throw error;
+  }
+}
 export async function userLogin(req) {
   try {
     const { email, password } = req.body;
@@ -91,7 +116,10 @@ export async function userLogin(req) {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
-    return { ...(await formatUserResponse(user)), ...(await formatUserToken(token)) };
+    return {
+      ...(await formatUserResponse(user)),
+      ...(await formatUserToken(token)),
+    };
   } catch (error) {
     throw error;
   }
