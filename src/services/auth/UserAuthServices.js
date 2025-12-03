@@ -1,4 +1,5 @@
 import { UserProfile } from "../../models/users/UserProfile.js";
+import { UserCertification } from "../../models/users/UserCertification.js";
 import { Users } from "../../models/users/Users.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -65,9 +66,9 @@ export async function userRegister(req) {
     // });
     
     await createOTP(email, newUser._id, "registration");
-    
-    return { 
-      ...(await formatUserResponse(newUser)), 
+
+    return {
+      ...(await formatUserResponse(newUser)),
       otpMsg : "An OTP has been sent to your email for verification."
     };
   } catch (error) {
@@ -101,7 +102,7 @@ export async function getUserProfile(req) {
   if (!token) {
     throw new Error("Unauthorized access");
   }
- 
+
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const user = await Users.findById(decoded.id).select("-password");
@@ -111,5 +112,20 @@ export async function getUserProfile(req) {
     return formatUserResponse(user);
   } catch (error) {
     throw new Error("Unauthorized access");
+  }
+}
+
+export async function deleteUser(userId) {
+  try {
+    const user = await Users.findByIdAndDelete(userId);
+    await UserProfile.findOneAndDelete({ user_id: userId });
+    await UserCertification.deleteMany({ user_id: userId });
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+    return { message: "User deleted successfully" };
+  } catch (error) {
+    throw error;
   }
 }
