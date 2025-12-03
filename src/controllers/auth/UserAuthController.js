@@ -1,6 +1,7 @@
 import {
   deleteUser,
   getUserProfile,
+  otpVarification,
   userLogin,
   userRegister,
 } from "../../services/auth/UserAuthServices.js";
@@ -12,6 +13,25 @@ export async function registration(req, res, next) {
       status: 200,
       success: true,
       message: "User registered successfully",
+      ...responseData,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: 400,
+      success: false,
+      auth_status: false,
+      message: error.message,
+    });
+  }
+}
+
+export async function otpValidation(req, res, next) {
+  try {
+    const responseData = await otpVarification(req);
+    res.status(200).json({
+      status: 200,
+      success: true,
+      message: "OTP validated successfully",
       ...responseData,
     });
   } catch (error) {
