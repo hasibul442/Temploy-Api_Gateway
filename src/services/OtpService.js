@@ -1,4 +1,5 @@
 import Otp from "../models/Otp.js";
+import { otpTemplate } from "../utils/helper/otpHelper.js";
 import transporter from "../utils/lib/emailService.js";
 
 export async function createOTP(email, userId, serviceType) {
@@ -67,8 +68,9 @@ async function sendOTPEmail(email, otpCode) {
        const mailOptions = {
            from: process.env.EMAIL_USER,
            to: email,
-           subject: 'Your OTP Code',
-           text: `Your OTP code is: ${otpCode}. It is valid for 5 minutes.`,
+           subject: 'Temploy OTP Verification Code',
+           html: await otpTemplate(otpCode),
+           text: `Your OTP code is: ${otpCode}. It is valid for 5 minutes.`, // Fallback for email clients that don't support HTML
        };
        await transporter.sendMail(mailOptions);
    } catch (error) {
