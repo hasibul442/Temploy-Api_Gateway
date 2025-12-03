@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 
 const userCertificationSchema = new mongoose.Schema({
   user_id: {
