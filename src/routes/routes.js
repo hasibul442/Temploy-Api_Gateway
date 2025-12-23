@@ -8,11 +8,27 @@ import EmpAuthRoute from "./auth/EmpAuthRoute.js";
 import UserAuthRoute from "./auth/UserAuthRoute.js";
 import { checkAuthentication } from "../middlewares/middleware.js";
 import { createBanner, deleteBanner, getBanner, getBannerById, updateBanner } from "../controllers/BannerController.js";
+import { addCountry, deleteCountry, getCountries, getCountryById, updateCountry } from "../controllers/CountriesController.js";
+import { getCurrencies } from "../controllers/CurrencyController.js";
+import { getLanguages } from "../controllers/LanguagesController.js";
 
 
 const router = express.Router();
 
 router.get("/health", healthCheck);
+
+// Countries route
+router.get("/countries", getCountries);
+router.post("/countries", checkAuthentication, addCountry);
+router.get("/countries/:id", checkAuthentication, getCountryById);
+router.put("/countries/:id", checkAuthentication, updateCountry);
+router.delete("/countries/:id", checkAuthentication, deleteCountry);
+
+// Currency route
+router.get("/currency", getCurrencies);
+
+// language route
+router.get("/languages", getLanguages);
 
 // Protected routes - require authentication
 router.get("/categories", getCategories);
