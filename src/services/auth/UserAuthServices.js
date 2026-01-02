@@ -35,7 +35,7 @@ async function formatUserToken(token) {
   return {
     token: {
       token: token,
-      expiresIn: 24 * 60 * 60 * 1000, // 1 day in milliseconds
+      expiresIn: 30 * 24 * 60 * 60 * 1000, // 30 days in milliseconds
       type: "Bearer",
     },
     auth_status: true,
